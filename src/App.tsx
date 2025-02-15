@@ -2,7 +2,9 @@ import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import Auth from "./layouts/Auth";
+import Layout from "./layouts/Layout";
 import Protect from "./layouts/Protect";
+import Home from "./pages/Common/Home";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 
@@ -11,7 +13,9 @@ function App() {
     <Routes>
       <Route element={<Auth />}>
         <Route element={<Protect />}>
-          <Route path="/" element={<App />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
         </Route>
         <Route path="auth">
           <Route path="sign-in" element={<SignIn />} />

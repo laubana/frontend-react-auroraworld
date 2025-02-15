@@ -4,6 +4,7 @@ import React, { JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
+import InputPassword from "../../components/InputPassword";
 import InputText from "../../components/InputText";
 import { useSignUpMutation } from "../../slices/authApiSlice";
 
@@ -73,7 +74,7 @@ const SignUpFormComponent = (): JSX.Element => {
             }}
             error={touched.email ? errors.email : ""}
           />
-          <InputText
+          <InputPassword
             label="Password"
             text={values.password}
             setText={(text) => {
@@ -82,7 +83,7 @@ const SignUpFormComponent = (): JSX.Element => {
             }}
             error={touched.password ? errors.password : ""}
           />
-          <InputText
+          <InputPassword
             label="Confirm Password"
             text={values.confirmPassword}
             setText={(text) => {

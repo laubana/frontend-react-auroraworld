@@ -16,12 +16,14 @@ const InputTextComponent = ({
 
   return (
     <TextField
+      type="text"
       label={label}
       placeholder={placeholder}
       value={text}
       onChange={handleChange}
       error={error ? true : false}
       helperText={error}
+      fullWidth
     />
   );
 };

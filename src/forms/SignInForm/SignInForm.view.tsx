@@ -4,6 +4,7 @@ import React, { JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
+import InputPassword from "../../components/InputPassword";
 import InputText from "../../components/InputText";
 import { useSignInMutation } from "../../slices/authApiSlice";
 
@@ -36,7 +37,7 @@ const SignInFormComponent = (): JSX.Element => {
         password: values.password,
       }).unwrap();
 
-      navigate("/auth/sign-in");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +68,7 @@ const SignInFormComponent = (): JSX.Element => {
             }}
             error={touched.email ? errors.email : ""}
           />
-          <InputText
+          <InputPassword
             label="Password"
             text={values.password}
             setText={(text) => {
