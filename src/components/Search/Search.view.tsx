@@ -1,6 +1,7 @@
 import {
   FormControl,
   InputLabel,
+  MenuItem,
   Select,
   Stack,
   Typography,
@@ -15,10 +16,12 @@ import { useSearchContext } from "../../contexts/SearchContext";
 import useDebounce from "../../hooks/useDebounce";
 
 const SearchComponent = (props: SearchProps): JSX.Element => {
+  const { categories } = props;
+
   const { handleChangeSearchCategoryId, handleChangeSearchName } =
     useSearchContext();
 
-  const [searchCategoryId, setSearchCategoryId] = useState<string>("");
+  const [searchCategoryId, setSearchCategoryId] = useState<string>("all");
   const [searchName, setSearchName] = useState<string>("");
 
   const debouncedSearchName = useDebounce<string>(searchName, 1000);
@@ -33,7 +36,9 @@ const SearchComponent = (props: SearchProps): JSX.Element => {
 
   return (
     <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
-      <Typography alignSelf="start">Search Link</Typography>
+      <Typography variant="h3" alignSelf="start">
+        Search Link
+      </Typography>
       <Stack
         spacing={4}
         direction={{ xs: "column", sm: "row" }}
@@ -48,22 +53,14 @@ const SearchComponent = (props: SearchProps): JSX.Element => {
             value={searchCategoryId}
             onChange={(event) => setSearchCategoryId(event.target.value)}
           >
+            <MenuItem value="all">All</MenuItem>
             {categories.map((category) => (
               <MenuItem value={category.id} key={category.id}>
                 {category.name}
               </MenuItem>
             ))}
           </Select>
-          {touched.category && (
-            <FormHelperText>{errors.category}</FormHelperText>
-          )}
         </FormControl>
-        <InputText
-          label="Category"
-          text={searchCategoryId}
-          setText={setSearchCategoryId}
-        />
-
         <InputText label="Name" text={searchName} setText={setSearchName} />
       </Stack>
     </Stack>

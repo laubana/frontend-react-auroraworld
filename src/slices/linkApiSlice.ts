@@ -6,7 +6,7 @@ export const linkApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addLink: builder.mutation<
       {
-        messsage: string;
+        message: string;
         data: Link;
       },
       {
@@ -31,7 +31,11 @@ export const linkApiSlice = apiSlice.injectEndpoints({
     }),
     getLinks: builder.query<
       { message: string; data: Link[] },
-      { mode: string; categoryId: string; name: string }
+      {
+        mode: "own" | "shared-unwritable" | "shared-writable";
+        categoryId: string;
+        name: string;
+      }
     >({
       query: ({ mode, categoryId, name }) => {
         return {
@@ -39,7 +43,7 @@ export const linkApiSlice = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: (result, error, args) => [
+      providesTags: (_result, _error, args) => [
         { type: "Link" as const, id: `LIST-${args.mode.toUpperCase()}` },
       ],
     }),
@@ -52,7 +56,10 @@ export const linkApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { categoryId, name, url },
       }),
-      invalidatesTags: () => [{ type: "Link" as const, id: "LIST-OWN" }],
+      invalidatesTags: () => [
+        { type: "Link" as const, id: "LIST-OWN" },
+        { type: "Link" as const, id: "LIST-SHARED-WRITABLE" },
+      ],
     }),
   }),
 });

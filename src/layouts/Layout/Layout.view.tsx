@@ -1,22 +1,15 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Container, Typography, useTheme } from "@mui/material";
 import React, { JSX } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import { store } from "../../configs/storeConfig";
-import {
-  selectAccessToken,
-  selectEmail,
-  selectId,
-  setAuth,
-} from "../../slices/authSlice";
+import { selectEmail, setAuth } from "../../slices/authSlice";
 import { useSignOutMutation } from "../../slices/authApiSlice";
 
 const LayoutComponent = (): JSX.Element => {
   const theme = useTheme();
 
-  const accessToken = useSelector(selectAccessToken);
-  const id = useSelector(selectId);
   const email = useSelector(selectEmail);
 
   const dispatch = useDispatch<typeof store.dispatch>();
@@ -34,10 +27,24 @@ const LayoutComponent = (): JSX.Element => {
   return (
     <>
       <header>
-        <Typography>{email}</Typography>
-        <Button variant="contained" color="secondary" onClick={handleSignOut}>
-          Sign Out
-        </Button>
+        <Container maxWidth="xl">
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            paddingY={theme.spacing(4)}
+            gap={theme.spacing(4)}
+          >
+            <Typography>{email}</Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </Button>
+          </Box>
+        </Container>
       </header>
       <main>
         <Outlet />

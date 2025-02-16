@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
 import React, { JSX } from "react";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 
 import { LinkFormProps } from "./LinkForm.props";
@@ -21,7 +22,7 @@ import {
 } from "../../slices/linkApiSlice";
 
 type Form = {
-  category: string;
+  categoryId: string;
   name: string;
   url: string;
 };
@@ -30,8 +31,8 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
   const {
     mode = "create",
     linkId,
-    category,
     categories = [],
+    categoryId,
     name,
     url,
   } = props;
@@ -40,13 +41,13 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
   const [updateLink] = useUpdateLinkMutation();
 
   const initialValues = {
-    category: mode === "create" ? "" : category || "",
+    categoryId: mode === "create" ? "" : categoryId || "",
     name: mode === "create" ? "" : name || "",
     url: mode === "create" ? "" : url || "",
   };
 
   const validationSchema = Yup.object().shape({
-    category: Yup.string().required("Category is required."),
+    categoryId: Yup.string().required("Category is required."),
     name: Yup.string().required("Name is required."),
     url: Yup.string().required("Url is required."),
   });
@@ -57,21 +58,25 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
   ) => {
     try {
       if (mode === "create") {
-        await addLink({
-          categoryId: values.category,
+        const response = await addLink({
+          categoryId: values.categoryId,
           name: values.name,
           url: values.url,
         }).unwrap();
 
         formikHelpers.resetForm();
+
+        toast.success(response.message);
       } else {
         if (linkId) {
-          await updateLink({
+          const response = await updateLink({
             linkId,
-            categoryId: values.category,
+            categoryId: values.categoryId,
             name: values.name,
             url: values.url,
           }).unwrap();
+
+          toast.success(response.message);
         }
       }
     } catch (error) {
@@ -94,22 +99,24 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
         values,
       }) => (
         <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
-          <Typography alignSelf="start">Add Link</Typography>
+          <Typography variant="h3" alignSelf="start">
+            {mode === "create" ? "Add Link" : "Update Link"}
+          </Typography>
           <Stack
             spacing={4}
             direction={{ xs: "column", sm: "row" }}
             alignSelf="stretch"
           >
-            <FormControl fullWidth error={errors.category ? true : false}>
+            <FormControl fullWidth error={errors.categoryId ? true : false}>
               <InputLabel id={`categories-${linkId}`}>Category</InputLabel>
               <Select
                 fullWidth
                 labelId={`categories-${linkId}`}
                 label="Categories"
-                value={values.category}
+                value={values.categoryId}
                 onChange={(event) => {
-                  setTouched({ category: true, ...touched });
-                  setFieldValue("category", event.target.value);
+                  setTouched({ categoryId: true, ...touched });
+                  setFieldValue("categoryId", event.target.value);
                 }}
               >
                 {categories.map((category) => (
@@ -118,19 +125,10 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
                   </MenuItem>
                 ))}
               </Select>
-              {touched.category && (
-                <FormHelperText>{errors.category}</FormHelperText>
+              {touched.categoryId && (
+                <FormHelperText>{errors.categoryId}</FormHelperText>
               )}
             </FormControl>
-            <InputText
-              label="Category"
-              text={values.category}
-              setText={(category) => {
-                setTouched({ category: true, ...touched });
-                setFieldValue("category", category);
-              }}
-              error={touched.category ? errors.category : ""}
-            />
             <InputText
               label="Name"
               text={values.name}

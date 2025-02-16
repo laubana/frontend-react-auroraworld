@@ -1,7 +1,12 @@
 import { Button, Stack, Typography } from "@mui/material";
 import React, { JSX, useState } from "react";
+import toast from "react-hot-toast";
 
-import { LinkCardProps } from "./LinkCard.props";
+import {
+  LinkCardOwnedProps,
+  LinkCardUnwritableProps,
+  LinkCardWritableProps,
+} from "./LinkCard.props";
 
 import ShareList from "../ShareList";
 
@@ -9,8 +14,20 @@ import LinkForm from "../../forms/LinkForm";
 import ShareForm from "../../forms/ShareForm";
 import { useDeleteLinkMutation } from "../../slices/linkApiSlice";
 
-const LinkCardComponent = (props: LinkCardProps): JSX.Element => {
-  const { linkId, category, name, url, users = [], owned, writable } = props;
+const LinkCardComponent = (
+  props: LinkCardOwnedProps | LinkCardUnwritableProps | LinkCardWritableProps
+): JSX.Element => {
+  const {
+    linkId,
+    categories,
+    categoryId,
+    categoryName,
+    name,
+    url,
+    users,
+    own,
+    writable,
+  } = props;
 
   const [deleteLink] = useDeleteLinkMutation();
 
@@ -18,7 +35,9 @@ const LinkCardComponent = (props: LinkCardProps): JSX.Element => {
 
   const handleDelete = async () => {
     try {
-      await deleteLink({ linkId }).unwrap();
+      const response = await deleteLink({ linkId }).unwrap();
+
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
     }
@@ -34,22 +53,23 @@ const LinkCardComponent = (props: LinkCardProps): JSX.Element => {
 
   return (
     <Stack spacing={4}>
-      {isUpdating ? (
+      {isUpdating && (own || writable) ? (
         <LinkForm
           mode="update"
           linkId={linkId}
-          category={category}
+          categories={categories}
+          categoryId={categoryId}
           name={name}
           url={url}
         />
       ) : (
         <>
-          <Typography>{category}</Typography>
+          <Typography>{categoryName}</Typography>
           <Typography>{name}</Typography>
           <Typography>{url}</Typography>
         </>
       )}
-      {(owned || writable) && (
+      {(own || writable) && (
         <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
           {isUpdating ? (
             <Button
@@ -64,14 +84,14 @@ const LinkCardComponent = (props: LinkCardProps): JSX.Element => {
               Update
             </Button>
           )}
-          {owned && (
+          {own && (
             <Button variant="contained" onClick={handleDelete}>
               Delete
             </Button>
           )}
         </Stack>
       )}
-      {owned && (
+      {own && (
         <>
           <ShareForm linkId={linkId} users={users} />
           <ShareList linkId={linkId} />

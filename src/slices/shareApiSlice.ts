@@ -20,7 +20,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, args) => [
+      invalidatesTags: (_result, _error, args) => [
         { type: "Share" as const, id: args.linkId },
       ],
     }),
@@ -29,7 +29,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
         url: `/api/shares/${shareId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, args) => [
+      invalidatesTags: (_result, _error, args) => [
         { type: "Share" as const, id: args.shareId },
       ],
     }),
@@ -43,7 +43,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: (result, error, args) =>
+      providesTags: (result, _error, args) =>
         result?.data
           ? [
               { type: "Share" as const, id: args.linkId },
@@ -63,7 +63,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { isWritable },
       }),
-      invalidatesTags: (result, error, args) => [
+      invalidatesTags: (_result, _error, args) => [
         { type: "Share" as const, id: args.shareId },
       ],
     }),

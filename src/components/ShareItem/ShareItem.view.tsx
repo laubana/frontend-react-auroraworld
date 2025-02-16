@@ -39,7 +39,11 @@ const ShareItemComponent = (props: ShareItemProps): JSX.Element => {
   };
 
   return (
-    <Stack spacing={2} direction="row" alignItems="center">
+    <Stack
+      spacing={2}
+      direction={{ xs: "column", sm: "row" }}
+      alignItems={{ xs: "stretch", sm: "center" }}
+    >
       <Typography>{email}</Typography>
       <FormControlLabel
         control={<Checkbox checked={isWritable} onChange={handleUpdate} />}

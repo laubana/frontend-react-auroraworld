@@ -10,7 +10,7 @@ import { useSearchContext } from "../../contexts/SearchContext";
 import { useGetLinksQuery } from "../../slices/linkApiSlice";
 
 const LinkListComponent = (props: LinkListProps): JSX.Element => {
-  const { users } = props;
+  const { categories, users } = props;
 
   const theme = useTheme();
 
@@ -45,13 +45,21 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
 
   return (
     <Stack spacing={4}>
-      <Typography>My Links</Typography>
+      <Typography variant="h3">Own Links</Typography>
       {isOwnLinksFetching ? (
         <Loader />
       ) : 0 < links.data.length ? (
         links.data.map((link) => (
-          <Paper elevation={3} sx={{ padding: theme.spacing(4) }} key={link.id}>
-            <LinkCard {...link} linkId={link.id} users={users} owned />
+          <Paper elevation={3} sx={{ padding: theme.spacing(2) }} key={link.id}>
+            <LinkCard
+              {...link}
+              linkId={link.id}
+              categories={categories}
+              categoryId={link.category_id}
+              categoryName={link.category_name}
+              users={users}
+              own
+            />
           </Paper>
         ))
       ) : (
@@ -59,7 +67,7 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
           <Typography>No item found.</Typography>
         </Box>
       )}
-      <Typography>Shared Links</Typography>
+      <Typography variant="h3">Shared Links</Typography>
       {isSharedUnwritableLinksFetching || isSharedWritableLinksFetching ? (
         <Loader />
       ) : 0 < sharedUnwritableLinks.data.length ||
@@ -71,7 +79,12 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
               sx={{ padding: theme.spacing(4) }}
               key={link.id}
             >
-              <LinkCard {...link} linkId={link.id} users={users} />
+              <LinkCard
+                {...link}
+                linkId={link.id}
+                categoryId={link.category_id}
+                categoryName={link.category_name}
+              />
             </Paper>
           ))}
           {sharedWritableLinks.data.map((link) => (
@@ -80,7 +93,14 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
               sx={{ padding: theme.spacing(4) }}
               key={link.id}
             >
-              <LinkCard {...link} linkId={link.id} users={users} writable />
+              <LinkCard
+                {...link}
+                linkId={link.id}
+                categories={categories}
+                categoryId={link.category_id}
+                categoryName={link.category_name}
+                writable
+              />
             </Paper>
           ))}
         </>

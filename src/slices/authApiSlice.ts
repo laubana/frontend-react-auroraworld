@@ -20,9 +20,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
       invalidatesTags: () => [
+        { type: "User" },
+        { type: "Category" },
         { type: "Link" },
         { type: "Share" },
-        { type: "User" },
       ],
     }),
     signIn: builder.mutation<
@@ -45,9 +46,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body,
       }),
       invalidatesTags: () => [
+        { type: "User" },
+        { type: "Category" },
         { type: "Link" },
         { type: "Share" },
-        { type: "User" },
       ],
     }),
     signOut: builder.mutation<{ message: string }, void>({
@@ -56,9 +58,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
       invalidatesTags: () => [
+        { type: "User" },
+        { type: "Category" },
         { type: "Link" },
         { type: "Share" },
-        { type: "User" },
       ],
     }),
     signUp: builder.mutation<

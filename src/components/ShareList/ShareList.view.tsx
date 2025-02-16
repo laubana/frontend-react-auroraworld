@@ -19,7 +19,7 @@ const LinkListComponent = (props: ShareListProps): JSX.Element => {
   return (
     <Stack spacing={4}>
       {shares.data.map((share) => (
-        <Paper elevation={3} sx={{ padding: theme.spacing(4) }} key={share.id}>
+        <Paper elevation={3} sx={{ padding: theme.spacing(2) }} key={share.id}>
           <ShareItem
             shareId={share.id}
             email={share.user_email}

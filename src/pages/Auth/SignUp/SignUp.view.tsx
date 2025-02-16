@@ -1,4 +1,5 @@
-import { Box, Container, Paper, useTheme } from "@mui/material";
+import { Box, Container, Paper, Stack, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import SignUpForm from "../../../forms/SignUpForm";
 
@@ -13,9 +14,14 @@ const SignUpView = () => {
       height="100vh"
     >
       <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ padding: theme.spacing(4) }}>
-          <SignUpForm />
-        </Paper>
+        <Stack spacing={4}>
+          <Link to="/">
+            <img src="/logo.svg" width="50%" />
+          </Link>
+          <Paper elevation={3} sx={{ padding: theme.spacing(4) }}>
+            <SignUpForm />
+          </Paper>
+        </Stack>
       </Container>
     </Box>
   );

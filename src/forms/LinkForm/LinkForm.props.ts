@@ -3,8 +3,8 @@ import { Category } from "../../types/Category";
 export interface LinkFormProps {
   mode?: "create" | "update";
   linkId?: string;
-  category?: string;
-  categories?: Category[];
+  categories: Category[];
+  categoryId?: string;
   name?: string;
   url?: string;
 }

@@ -1,5 +1,7 @@
+import { Category } from "../../types/Category";
 import { User } from "../../types/User";
 
 export interface LinkListProps {
-  users?: User[];
+  categories: Category[];
+  users: User[];
 }
