@@ -1,12 +1,16 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { Formik } from "formik";
 import React, { JSX } from "react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import InputPassword from "../../components/InputPassword";
 import InputText from "../../components/InputText";
+import { store } from "../../configs/storeConfig";
 import { useSignInMutation } from "../../slices/authApiSlice";
+import { setAuth } from "../../slices/authSlice";
 
 type Form = {
   email: string;
@@ -17,6 +21,8 @@ const SignInFormComponent = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [signIn] = useSignInMutation();
+
+  const dispatch = useDispatch<typeof store.dispatch>();
 
   const initialValues = {
     email: "",
@@ -32,14 +38,20 @@ const SignInFormComponent = (): JSX.Element => {
 
   const handleSubmit = async (values: Form) => {
     try {
-      await signIn({
+      const response = await signIn({
         email: values.email,
         password: values.password,
       }).unwrap();
 
+      dispatch(setAuth(response.data));
+
+      toast.success(response.message);
+
       navigate("/");
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 
@@ -77,9 +89,17 @@ const SignInFormComponent = (): JSX.Element => {
             }}
             error={touched.password ? errors.password : ""}
           />
-          <Button onClick={() => handleSubmit()} variant="contained">
-            Sign In
-          </Button>
+          <>
+            <Button onClick={() => handleSubmit()} variant="contained">
+              Sign In
+            </Button>
+            <Typography align="center">
+              Don't have an account? Sign up{" "}
+              <Link to="/auth/sign-up" replace>
+                here
+              </Link>
+            </Typography>
+          </>
         </Stack>
       )}
     </Formik>

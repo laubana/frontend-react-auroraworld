@@ -2,41 +2,51 @@ import { apiSlice } from "./apiSlice";
 
 import { Share } from "../types/Share";
 
-type SignUpPayload = {
-  linkId: string;
-  userId: string;
-  isWritable: boolean;
-};
-
-type SignInRes = {
-  messsage: string;
-  data: SignUpPayload;
-};
-
 export const shareApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addShare: builder.mutation<SignInRes, SignUpPayload>({
+    addShare: builder.mutation<
+      {
+        messsage: string;
+        data: Share;
+      },
+      {
+        linkId: string;
+        userId: string;
+        isWritable: boolean;
+      }
+    >({
       query: (body) => ({
         url: `/api/shares`,
         method: "POST",
         body,
       }),
-      invalidatesTags: () => [{ type: "Share" as const, id: "LIST" }],
+      invalidatesTags: (result, error, args) => [
+        { type: "Share" as const, id: args.linkId },
+      ],
     }),
-    getLinkShares: builder.query<
+    deleteShare: builder.mutation<{ message: string }, { shareId: string }>({
+      query: ({ shareId }) => ({
+        url: `/api/shares/${shareId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, args) => [
+        { type: "Share" as const, id: args.shareId },
+      ],
+    }),
+    getShares: builder.query<
       { message: string; data: Share[] },
       { linkId: string }
     >({
-      query: ({ linkId }) => {
+      query: (body) => {
         return {
-          url: `/api/link-shares/${linkId}`,
+          url: `/api/shares/${body.linkId}`,
           method: "GET",
         };
       },
-      providesTags: (result) =>
+      providesTags: (result, error, args) =>
         result?.data
           ? [
-              { type: "Share" as const, id: "LIST" },
+              { type: "Share" as const, id: args.linkId },
               ...result.data.map((share) => ({
                 type: "Share" as const,
                 id: share.id,
@@ -44,7 +54,25 @@ export const shareApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: "Share" as const, id: "LIST" }],
     }),
+    updateShare: builder.mutation<
+      { message: string },
+      { shareId: string; isWritable: boolean }
+    >({
+      query: ({ shareId, isWritable }) => ({
+        url: `/api/shares/${shareId}`,
+        method: "PUT",
+        body: { isWritable },
+      }),
+      invalidatesTags: (result, error, args) => [
+        { type: "Share" as const, id: args.shareId },
+      ],
+    }),
   }),
 });
 
-export const { useAddShareMutation, useGetLinkSharesQuery } = shareApiSlice;
+export const {
+  useAddShareMutation,
+  useDeleteShareMutation,
+  useGetSharesQuery,
+  useUpdateShareMutation,
+} = shareApiSlice;

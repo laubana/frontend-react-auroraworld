@@ -1,7 +1,8 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { Formik } from "formik";
 import React, { JSX } from "react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import InputPassword from "../../components/InputPassword";
@@ -38,14 +39,18 @@ const SignUpFormComponent = (): JSX.Element => {
 
   const handleSubmit = async (values: Form) => {
     try {
-      await signUp({
+      const response = await signUp({
         email: values.email,
         password: values.password,
       }).unwrap();
 
+      toast.success(response.message);
+
       navigate("/auth/sign-in");
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 
@@ -95,6 +100,12 @@ const SignUpFormComponent = (): JSX.Element => {
           <Button onClick={() => handleSubmit()} variant="contained">
             Sign Up
           </Button>
+          <Typography align="center">
+            Already have an account? Sign in{" "}
+            <Link to="/auth/sign-in" replace>
+              here
+            </Link>
+          </Typography>
         </Stack>
       )}
     </Formik>

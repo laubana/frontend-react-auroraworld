@@ -2,9 +2,9 @@ import React, { JSX, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
+import { store } from "../../configs/storeConfig";
 import { useRefreshMutation } from "../../slices/authApiSlice";
 import { selectAccessToken, setAuth } from "../../slices/authSlice";
-import { store } from "../../configs/storeConfig";
 
 const AuthComponent = (): JSX.Element => {
   const [refresh] = useRefreshMutation();

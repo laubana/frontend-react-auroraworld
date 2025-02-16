@@ -1,6 +1,5 @@
-import { User } from "../../types/User";
-
 export interface ShareItemProps {
-  linkId: string;
-  user: User;
+  shareId: string;
+  email: string;
+  isWritable: boolean;
 }

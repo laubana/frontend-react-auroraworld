@@ -12,7 +12,7 @@ const SignInView = () => {
       height="100vh"
     >
       <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ padding: theme.spacing(3) }}>
+        <Paper elevation={3} sx={{ padding: theme.spacing(4) }}>
           <SignInForm />
         </Paper>
       </Container>

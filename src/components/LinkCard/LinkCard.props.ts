@@ -5,5 +5,7 @@ export interface LinkCardProps {
   category: string;
   name: string;
   url: string;
-  users: User[];
+  users?: User[];
+  owned?: boolean;
+  writable?: boolean;
 }

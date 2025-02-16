@@ -1,1 +1,1 @@
-export { default } from "./LinkList.view";
+export { default } from "./ShareList.view";

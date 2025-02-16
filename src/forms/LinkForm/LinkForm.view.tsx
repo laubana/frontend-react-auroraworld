@@ -1,10 +1,24 @@
-import { Button, Stack, Typography } from "@mui/material";
-import { Formik } from "formik";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Formik, FormikHelpers } from "formik";
 import React, { JSX } from "react";
 import * as Yup from "yup";
 
+import { LinkFormProps } from "./LinkForm.props";
+
 import InputText from "../../components/InputText";
-import { useAddLinkMutation } from "../../slices/linkApiSlice";
+import {
+  useAddLinkMutation,
+  useUpdateLinkMutation,
+} from "../../slices/linkApiSlice";
 
 type Form = {
   category: string;
@@ -12,13 +26,23 @@ type Form = {
   url: string;
 };
 
-const LinkFormComponent = (): JSX.Element => {
+const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
+  const {
+    mode = "create",
+    linkId,
+    category,
+    categories = [],
+    name,
+    url,
+  } = props;
+
   const [addLink] = useAddLinkMutation();
+  const [updateLink] = useUpdateLinkMutation();
 
   const initialValues = {
-    category: "",
-    name: "",
-    url: "",
+    category: mode === "create" ? "" : category || "",
+    name: mode === "create" ? "" : name || "",
+    url: mode === "create" ? "" : url || "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -27,13 +51,29 @@ const LinkFormComponent = (): JSX.Element => {
     url: Yup.string().required("Url is required."),
   });
 
-  const handleSubmit = async (values: Form) => {
+  const handleSubmit = async (
+    values: Form,
+    formikHelpers: FormikHelpers<Form>
+  ) => {
     try {
-      await addLink({
-        category: values.category,
-        name: values.name,
-        url: values.url,
-      }).unwrap();
+      if (mode === "create") {
+        await addLink({
+          categoryId: values.category,
+          name: values.name,
+          url: values.url,
+        }).unwrap();
+
+        formikHelpers.resetForm();
+      } else {
+        if (linkId) {
+          await updateLink({
+            linkId,
+            categoryId: values.category,
+            name: values.name,
+            url: values.url,
+          }).unwrap();
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -60,6 +100,28 @@ const LinkFormComponent = (): JSX.Element => {
             direction={{ xs: "column", sm: "row" }}
             alignSelf="stretch"
           >
+            <FormControl fullWidth error={errors.category ? true : false}>
+              <InputLabel id={`categories-${linkId}`}>Category</InputLabel>
+              <Select
+                fullWidth
+                labelId={`categories-${linkId}`}
+                label="Categories"
+                value={values.category}
+                onChange={(event) => {
+                  setTouched({ category: true, ...touched });
+                  setFieldValue("category", event.target.value);
+                }}
+              >
+                {categories.map((category) => (
+                  <MenuItem value={category.id} key={category.id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              {touched.category && (
+                <FormHelperText>{errors.category}</FormHelperText>
+              )}
+            </FormControl>
             <InputText
               label="Category"
               text={values.category}
@@ -88,9 +150,15 @@ const LinkFormComponent = (): JSX.Element => {
               error={touched.url ? errors.url : ""}
             />
           </Stack>
-          <Button onClick={() => handleSubmit()} variant="contained">
-            Add
-          </Button>
+          {mode === "create" ? (
+            <Button onClick={() => handleSubmit()} variant="contained">
+              Add
+            </Button>
+          ) : (
+            <Button onClick={() => handleSubmit()} variant="contained">
+              Confirm
+            </Button>
+          )}
         </Stack>
       )}
     </Formik>
