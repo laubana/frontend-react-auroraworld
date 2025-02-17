@@ -11,7 +11,7 @@ import { setAuth } from "./authSlice";
 import { RootState } from "../configs/storeConfig";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_BACKEND_URL,
+  baseUrl: import.meta.env.VITE_BACKEND_URL || "http://localhost:4000",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
