@@ -1,0 +1,27 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: frontend-react-auroraworld-dev
+    ports:
+      - ${VITE_PORT}:${VITE_PORT}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: always
+    environment:
+      - NODE_ENV=development
+
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: frontend-react-auroraworld-prod
+    ports:
+      - ${VITE_PORT}:80
+    volumes:
+      - /app/node_modules
+    restart: always
+    environment:
+      - NODE_ENV=production

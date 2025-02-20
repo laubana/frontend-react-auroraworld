@@ -16,6 +16,7 @@ import React, { JSX, useState } from "react";
 import * as Yup from "yup";
 
 import { ShareFormProps } from "./ShareForm.props";
+
 import { useAddShareMutation } from "../../slices/shareApiSlice";
 
 type Form = {
@@ -29,7 +30,7 @@ const ShareFormComponent = (props: ShareFormProps): JSX.Element => {
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const initialValues = {
+  const initialValues: Form = {
     userId: "",
   };
 

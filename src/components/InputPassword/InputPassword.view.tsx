@@ -1,8 +1,8 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputAdornment, TextField } from "@mui/material";
 import React, { ChangeEvent, JSX, useState } from "react";
 
 import { InputTextProps } from "./InputPassword.props";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const InputPasswordComponent = ({
   label,

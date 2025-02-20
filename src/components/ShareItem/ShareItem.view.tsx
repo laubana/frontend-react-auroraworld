@@ -6,8 +6,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { ChangeEvent, JSX } from "react";
+import toast from "react-hot-toast";
 
 import { ShareItemProps } from "./ShareItem.props";
+
 import {
   useDeleteShareMutation,
   useUpdateShareMutation,
@@ -21,20 +23,28 @@ const ShareItemComponent = (props: ShareItemProps): JSX.Element => {
 
   const handleUpdate = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
-      await updateShare({
+      const response = await updateShare({
         shareId,
         isWritable: event.target.checked ? true : false,
       }).unwrap();
+
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 
   const handleDelete = async () => {
     try {
-      await deleteShare({ shareId }).unwrap();
+      const response = await deleteShare({ shareId }).unwrap();
+
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 

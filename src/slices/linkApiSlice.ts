@@ -16,18 +16,18 @@ export const linkApiSlice = apiSlice.injectEndpoints({
       }
     >({
       query: (body) => ({
-        url: `/api/links`,
+        url: `/api/link`,
         method: "POST",
         body,
       }),
-      invalidatesTags: () => [{ type: "Link" as const, id: "LIST-OWN" }],
+      invalidatesTags: () => [{ type: "Link", id: "LIST-OWN" }],
     }),
     deleteLink: builder.mutation<{ message: string }, { linkId: string }>({
       query: ({ linkId }) => ({
-        url: `/api/links/${linkId}`,
+        url: `/api/link/${linkId}`,
         method: "DELETE",
       }),
-      invalidatesTags: () => [{ type: "Link" as const, id: "LIST-OWN" }],
+      invalidatesTags: () => [{ type: "Link", id: "LIST-OWN" }],
     }),
     getLinks: builder.query<
       { message: string; data: Link[] },
@@ -44,7 +44,7 @@ export const linkApiSlice = apiSlice.injectEndpoints({
         };
       },
       providesTags: (_result, _error, args) => [
-        { type: "Link" as const, id: `LIST-${args.mode.toUpperCase()}` },
+        { type: "Link", id: `LIST-${args.mode.toUpperCase()}` },
       ],
     }),
     updateLink: builder.mutation<
@@ -52,13 +52,13 @@ export const linkApiSlice = apiSlice.injectEndpoints({
       { linkId: string; categoryId: string; name: string; url: string }
     >({
       query: ({ linkId, categoryId, name, url }) => ({
-        url: `/api/links/${linkId}`,
+        url: `/api/link/${linkId}`,
         method: "PUT",
         body: { categoryId, name, url },
       }),
       invalidatesTags: () => [
-        { type: "Link" as const, id: "LIST-OWN" },
-        { type: "Link" as const, id: "LIST-SHARED-WRITABLE" },
+        { type: "Link", id: "LIST-OWN" },
+        { type: "Link", id: "LIST-SHARED-WRITABLE" },
       ],
     }),
   }),

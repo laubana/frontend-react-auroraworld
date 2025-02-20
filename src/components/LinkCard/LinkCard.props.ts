@@ -1,5 +1,4 @@
 import { Category } from "../../types/Category";
-import { User } from "../../types/User";
 
 export interface LinkCardOwnedProps {
   linkId: string;
@@ -8,7 +7,6 @@ export interface LinkCardOwnedProps {
   categoryName: string;
   name: string;
   url: string;
-  users: User[];
   own: true;
   writable?: boolean;
 }
@@ -20,7 +18,6 @@ export interface LinkCardUnwritableProps {
   categoryName: string;
   name: string;
   url: string;
-  users?: never;
   own?: false;
   writable?: false;
 }
@@ -32,7 +29,6 @@ export interface LinkCardWritableProps {
   categoryName: string;
   name: string;
   url: string;
-  users?: never;
   own?: false;
   writable: true;
 }

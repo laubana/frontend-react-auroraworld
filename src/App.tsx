@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 
-import "./App.css";
 import Auth from "./layouts/Auth";
 import Layout from "./layouts/Layout";
 import Protect from "./layouts/Protect";

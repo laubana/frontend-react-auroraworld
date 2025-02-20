@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import React, { JSX, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -11,7 +11,6 @@ import {
 import ShareList from "../ShareList";
 
 import LinkForm from "../../forms/LinkForm";
-import ShareForm from "../../forms/ShareForm";
 import { useDeleteLinkMutation } from "../../slices/linkApiSlice";
 
 const LinkCardComponent = (
@@ -24,7 +23,6 @@ const LinkCardComponent = (
     categoryName,
     name,
     url,
-    users,
     own,
     writable,
   } = props;
@@ -40,6 +38,8 @@ const LinkCardComponent = (
       toast.success(response.message);
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 
@@ -53,6 +53,13 @@ const LinkCardComponent = (
 
   return (
     <Stack spacing={4}>
+      {own && (
+        <Box display="flex" justifyContent="flex-end" alignItems="center">
+          <Button variant="contained" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Box>
+      )}
       {isUpdating && (own || writable) ? (
         <LinkForm
           mode="update"
@@ -84,19 +91,9 @@ const LinkCardComponent = (
               Update
             </Button>
           )}
-          {own && (
-            <Button variant="contained" onClick={handleDelete}>
-              Delete
-            </Button>
-          )}
         </Stack>
       )}
-      {own && (
-        <>
-          <ShareForm linkId={linkId} users={users} />
-          <ShareList linkId={linkId} />
-        </>
-      )}
+      {own && <ShareList linkId={linkId} />}
     </Stack>
   );
 };

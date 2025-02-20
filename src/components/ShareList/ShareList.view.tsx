@@ -1,4 +1,4 @@
-import { Paper, Stack, useTheme } from "@mui/material";
+import { Stack } from "@mui/material";
 import React, { JSX } from "react";
 
 import { ShareListProps } from "./ShareList.props";
@@ -10,8 +10,6 @@ import { useGetSharesQuery } from "../../slices/shareApiSlice";
 const LinkListComponent = (props: ShareListProps): JSX.Element => {
   const { linkId } = props;
 
-  const theme = useTheme();
-
   const { data: shares = { message: "", data: [] } } = useGetSharesQuery({
     linkId,
   });
@@ -19,13 +17,11 @@ const LinkListComponent = (props: ShareListProps): JSX.Element => {
   return (
     <Stack spacing={4}>
       {shares.data.map((share) => (
-        <Paper elevation={3} sx={{ padding: theme.spacing(2) }} key={share.id}>
-          <ShareItem
-            shareId={share.id}
-            email={share.user_email}
-            isWritable={share.is_writable === 1 ? true : false}
-          />
-        </Paper>
+        <ShareItem
+          shareId={share.id}
+          email={share.user_email}
+          isWritable={share.is_writable === 1 ? true : false}
+        />
       ))}
     </Stack>
   );

@@ -40,7 +40,7 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
   const [addLink] = useAddLinkMutation();
   const [updateLink] = useUpdateLinkMutation();
 
-  const initialValues = {
+  const initialValues: Form = {
     categoryId: mode === "create" ? "" : categoryId || "",
     name: mode === "create" ? "" : name || "",
     url: mode === "create" ? "" : url || "",
@@ -81,6 +81,8 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
       }
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 
@@ -107,12 +109,15 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
             direction={{ xs: "column", sm: "row" }}
             alignSelf="stretch"
           >
-            <FormControl fullWidth error={errors.categoryId ? true : false}>
+            <FormControl
+              fullWidth
+              error={touched.categoryId && errors.categoryId ? true : false}
+            >
               <InputLabel id={`categories-${linkId}`}>Category</InputLabel>
               <Select
                 fullWidth
                 labelId={`categories-${linkId}`}
-                label="Categories"
+                label="Category"
                 value={values.categoryId}
                 onChange={(event) => {
                   setTouched({ categoryId: true, ...touched });
@@ -125,7 +130,7 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
                   </MenuItem>
                 ))}
               </Select>
-              {touched.categoryId && (
+              {touched.categoryId && errors.categoryId && (
                 <FormHelperText>{errors.categoryId}</FormHelperText>
               )}
             </FormControl>

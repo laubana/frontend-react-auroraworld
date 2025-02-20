@@ -24,7 +24,7 @@ const SignInFormComponent = (): JSX.Element => {
 
   const dispatch = useDispatch<typeof store.dispatch>();
 
-  const initialValues = {
+  const initialValues: Form = {
     email: "",
     password: "",
   };

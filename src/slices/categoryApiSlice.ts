@@ -11,7 +11,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: () => [{ type: "Category" as const, id: "LIST" }],
+      providesTags: () => [{ type: "Category", id: "LIST" }],
     }),
   }),
 });

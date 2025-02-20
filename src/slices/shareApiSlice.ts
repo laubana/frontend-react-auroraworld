@@ -6,7 +6,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addShare: builder.mutation<
       {
-        messsage: string;
+        message: string;
         data: Share;
       },
       {
@@ -16,21 +16,39 @@ export const shareApiSlice = apiSlice.injectEndpoints({
       }
     >({
       query: (body) => ({
-        url: `/api/shares`,
+        url: `/api/share`,
         method: "POST",
         body,
       }),
       invalidatesTags: (_result, _error, args) => [
-        { type: "Share" as const, id: args.linkId },
+        { type: "Share", id: args.linkId },
       ],
+    }),
+    addShares: builder.mutation<
+      {
+        message: string;
+        data: Share;
+      },
+      {
+        linkIds: string[];
+        userIds: string[];
+        isWritable: boolean;
+      }
+    >({
+      query: (body) => ({
+        url: `/api/shares`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: () => [{ type: "Link" }, { type: "Share" }],
     }),
     deleteShare: builder.mutation<{ message: string }, { shareId: string }>({
       query: ({ shareId }) => ({
-        url: `/api/shares/${shareId}`,
+        url: `/api/share/${shareId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_result, _error, args) => [
-        { type: "Share" as const, id: args.shareId },
+        { type: "Share", id: args.shareId },
       ],
     }),
     getShares: builder.query<
@@ -52,19 +70,19 @@ export const shareApiSlice = apiSlice.injectEndpoints({
                 id: share.id,
               })),
             ]
-          : [{ type: "Share" as const, id: "LIST" }],
+          : [{ type: "Share" as const, id: args.linkId }],
     }),
     updateShare: builder.mutation<
       { message: string },
       { shareId: string; isWritable: boolean }
     >({
       query: ({ shareId, isWritable }) => ({
-        url: `/api/shares/${shareId}`,
+        url: `/api/share/${shareId}`,
         method: "PUT",
         body: { isWritable },
       }),
       invalidatesTags: (_result, _error, args) => [
-        { type: "Share" as const, id: args.shareId },
+        { type: "Share", id: args.shareId },
       ],
     }),
   }),
@@ -72,6 +90,7 @@ export const shareApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useAddShareMutation,
+  useAddSharesMutation,
   useDeleteShareMutation,
   useGetSharesQuery,
   useUpdateShareMutation,

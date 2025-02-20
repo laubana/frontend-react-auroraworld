@@ -10,14 +10,14 @@ import { useSearchContext } from "../../contexts/SearchContext";
 import { useGetLinksQuery } from "../../slices/linkApiSlice";
 
 const LinkListComponent = (props: LinkListProps): JSX.Element => {
-  const { categories, users } = props;
+  const { categories } = props;
 
   const theme = useTheme();
 
   const { searchCategoryId, searchName } = useSearchContext();
 
   const {
-    data: links = { message: "", data: [] },
+    data: ownLinks = { message: "", data: [] },
     isFetching: isOwnLinksFetching,
   } = useGetLinksQuery({
     mode: "own",
@@ -48,8 +48,8 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
       <Typography variant="h3">Own Links</Typography>
       {isOwnLinksFetching ? (
         <Loader />
-      ) : 0 < links.data.length ? (
-        links.data.map((link) => (
+      ) : 0 < ownLinks.data.length ? (
+        ownLinks.data.map((link) => (
           <Paper elevation={3} sx={{ padding: theme.spacing(2) }} key={link.id}>
             <LinkCard
               {...link}
@@ -57,7 +57,6 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
               categories={categories}
               categoryId={link.category_id}
               categoryName={link.category_name}
-              users={users}
               own
             />
           </Paper>

@@ -11,10 +11,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: (result) =>
-        result?.data
-          ? [{ type: "User" as const, id: "LIST" }]
-          : [{ type: "User" as const, id: "LIST" }],
+      providesTags: () => [{ type: "User", id: "LIST" }],
     }),
   }),
 });

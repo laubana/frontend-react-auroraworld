@@ -1,5 +1,6 @@
 import { Box, Button, Container, Typography, useTheme } from "@mui/material";
 import React, { JSX } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
@@ -17,10 +18,15 @@ const LayoutComponent = (): JSX.Element => {
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      const response = await signOut().unwrap();
+
       dispatch(setAuth({ accessToken: "", id: "", email: "" }));
+
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
+
+      toast.error((error as { data: { message: string } }).data.message);
     }
   };
 

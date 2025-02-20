@@ -6,7 +6,13 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    server: { port: Number(env.VITE_PORT) || 5173 },
-    // build: { outDir: "build" },
+    server: {
+      host: true,
+      port: Number(env.VITE_PORT) || 5173,
+      watch: {
+        usePolling: true,
+        interval: 1000,
+      },
+    },
   };
 });

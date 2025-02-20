@@ -20,7 +20,7 @@ const SignUpFormComponent = (): JSX.Element => {
 
   const [signUp] = useSignUpMutation();
 
-  const initialValues = {
+  const initialValues: Form = {
     email: "",
     password: "",
     confirmPassword: "",
