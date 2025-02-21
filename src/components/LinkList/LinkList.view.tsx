@@ -1,4 +1,5 @@
 import { Box, Paper, Stack, Typography, useTheme } from "@mui/material";
+import { Empty } from "antd";
 import React, { JSX } from "react";
 
 import { LinkListProps } from "./LinkList.props";
@@ -45,7 +46,15 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h3">Own Links</Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          textTransform: "uppercase",
+          letterSpacing: theme.typography.fontSize,
+        }}
+      >
+        Own Links
+      </Typography>
       {isOwnLinksFetching ? (
         <Loader />
       ) : 0 < ownLinks.data.length ? (
@@ -62,11 +71,27 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
           </Paper>
         ))
       ) : (
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography>No item found.</Typography>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Empty description={false} />
+          <Typography color={theme.palette.secondary.light}>
+            No item found.
+          </Typography>
         </Box>
       )}
-      <Typography variant="h3">Shared Links</Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          textTransform: "uppercase",
+          letterSpacing: theme.typography.fontSize,
+        }}
+      >
+        Shared Links
+      </Typography>
       {isSharedUnwritableLinksFetching || isSharedWritableLinksFetching ? (
         <Loader />
       ) : 0 < sharedUnwritableLinks.data.length ||
@@ -104,8 +129,16 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
           ))}
         </>
       ) : (
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography>No item found.</Typography>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Empty description={false} />
+          <Typography color={theme.palette.secondary.light}>
+            No item found.
+          </Typography>
         </Box>
       )}
     </Stack>

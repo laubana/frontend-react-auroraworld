@@ -5,6 +5,7 @@ import {
   Select,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React, { JSX, useEffect, useState } from "react";
 
@@ -17,6 +18,8 @@ import useSearch from "../../hooks/useSearch";
 
 const SearchComponent = (props: SearchProps): JSX.Element => {
   const { categories } = props;
+
+  const theme = useTheme();
 
   const { handleChangeSearchCategoryId, handleChangeSearchName } = useSearch();
 
@@ -35,7 +38,14 @@ const SearchComponent = (props: SearchProps): JSX.Element => {
 
   return (
     <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
-      <Typography variant="h3" alignSelf="start">
+      <Typography
+        variant="h6"
+        sx={{
+          textTransform: "uppercase",
+          letterSpacing: theme.typography.fontSize,
+        }}
+        alignSelf="start"
+      >
         Search Link
       </Typography>
       <Stack

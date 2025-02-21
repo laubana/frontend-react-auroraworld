@@ -7,6 +7,7 @@ import {
   Select,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
 import React, { JSX } from "react";
@@ -37,6 +38,8 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
     url,
   } = props;
 
+  const theme = useTheme();
+
   const [addLink] = useAddLinkMutation();
   const [updateLink] = useUpdateLinkMutation();
 
@@ -48,8 +51,12 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
 
   const validationSchema = Yup.object().shape({
     categoryId: Yup.string().required("Category is required."),
-    name: Yup.string().required("Name is required."),
-    url: Yup.string().required("Url is required."),
+    name: Yup.string()
+      .required("Name is required.")
+      .max(255, "Name must be 255 characters or less."),
+    url: Yup.string()
+      .required("Url is required.")
+      .max(255, "Url must be 255 characters or less."),
   });
 
   const handleSubmit = async (
@@ -101,7 +108,14 @@ const LinkFormComponent = (props: LinkFormProps): JSX.Element => {
         values,
       }) => (
         <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
-          <Typography variant="h3" alignSelf="start">
+          <Typography
+            variant="h6"
+            sx={{
+              textTransform: "uppercase",
+              letterSpacing: theme.typography.fontSize,
+            }}
+            alignSelf="start"
+          >
             {mode === "create" ? "Add Link" : "Update Link"}
           </Typography>
           <Stack

@@ -71,9 +71,11 @@ const LinkCardComponent = (
         />
       ) : (
         <>
-          <Typography>{categoryName}</Typography>
-          <Typography>{name}</Typography>
-          <Typography>{url}</Typography>
+          <Typography sx={{ wordBreak: "break-all" }}>
+            {categoryName}
+          </Typography>
+          <Typography sx={{ wordBreak: "break-all" }}>{name}</Typography>
+          <Typography sx={{ wordBreak: "break-all" }}>{url}</Typography>
         </>
       )}
       {(own || writable) && (

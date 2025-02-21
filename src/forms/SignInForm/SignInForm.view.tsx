@@ -30,10 +30,13 @@ const SignInFormComponent = (): JSX.Element => {
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required("Email is required."),
+    email: Yup.string()
+      .required("Email is required.")
+      .max(255, "Email must be 255 characters or less."),
     password: Yup.string()
       .required("Password is required.")
-      .min(6, "Password must be at least 6 characters."),
+      .min(6, "Password must be at least 6 characters.")
+      .max(255, "Password must be 255 characters or less."),
   });
 
   const handleSubmit = async (values: Form) => {

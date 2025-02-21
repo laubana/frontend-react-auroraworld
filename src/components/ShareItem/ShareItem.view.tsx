@@ -54,7 +54,7 @@ const ShareItemComponent = (props: ShareItemProps): JSX.Element => {
       direction={{ xs: "column", sm: "row" }}
       alignItems={{ xs: "stretch", sm: "center" }}
     >
-      <Typography>{email}</Typography>
+      <Typography sx={{ wordBreak: "break-all" }}>{email}</Typography>
       <FormControlLabel
         control={<Checkbox checked={isWritable} onChange={handleUpdate} />}
         label="Writable"

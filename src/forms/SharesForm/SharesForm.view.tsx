@@ -12,6 +12,7 @@ import {
   Select,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
 import React, { JSX, useState } from "react";
@@ -32,14 +33,13 @@ type Form = {
 const TestFormComponent = (props: SharesFormProps): JSX.Element => {
   const { users } = props;
 
+  const theme = useTheme();
+
   const [addShares] = useAddSharesMutation();
 
   const { searchCategoryId, searchName } = useSearch();
 
-  const {
-    data: ownLinks = { message: "", data: [] },
-    // isFetching: isOwnLinksFetching,
-  } = useGetLinksQuery({
+  const { data: ownLinks = { message: "", data: [] } } = useGetLinksQuery({
     mode: "own",
     categoryId: searchCategoryId || "",
     name: searchName || "",
@@ -104,7 +104,14 @@ const TestFormComponent = (props: SharesFormProps): JSX.Element => {
       }) => (
         <>
           <Stack spacing={4} alignItems={{ xs: "stretch", sm: "center" }}>
-            <Typography variant="h3" alignSelf="start">
+            <Typography
+              variant="h6"
+              sx={{
+                textTransform: "uppercase",
+                letterSpacing: theme.typography.fontSize,
+              }}
+              alignSelf="start"
+            >
               Share Link
             </Typography>
             <Stack spacing={4} direction="row" alignSelf="stretch">
