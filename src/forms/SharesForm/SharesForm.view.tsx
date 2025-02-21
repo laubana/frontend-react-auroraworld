@@ -53,9 +53,7 @@ const TestFormComponent = (props: SharesFormProps): JSX.Element => {
   };
 
   const validationSchema = Yup.object().shape({
-    linkIds: Yup.array(Yup.string())
-      .min(1, "User is required.")
-      .required("test"),
+    linkIds: Yup.array(Yup.string()).min(1, "Link is required."),
     userIds: Yup.array(Yup.string()).min(1, "User is required."),
   });
 
