@@ -27,7 +27,6 @@ function App() {
           </Route>
         </Route>
       </Routes>
-
       <Toaster
         toastOptions={{ style: { fontFamily: theme.typography.fontFamily } }}
       />

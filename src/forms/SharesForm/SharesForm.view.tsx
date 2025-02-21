@@ -20,7 +20,7 @@ import * as Yup from "yup";
 
 import { SharesFormProps } from "./SharesForm.props";
 
-import { useSearchContext } from "../../contexts/SearchContext";
+import useSearch from "../../hooks/useSearch";
 import { useGetLinksQuery } from "../../slices/linkApiSlice";
 import { useAddSharesMutation } from "../../slices/shareApiSlice";
 
@@ -34,7 +34,7 @@ const TestFormComponent = (props: SharesFormProps): JSX.Element => {
 
   const [addShares] = useAddSharesMutation();
 
-  const { searchCategoryId, searchName } = useSearchContext();
+  const { searchCategoryId, searchName } = useSearch();
 
   const {
     data: ownLinks = { message: "", data: [] },

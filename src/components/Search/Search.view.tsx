@@ -12,14 +12,13 @@ import { SearchProps } from "./Search.props";
 
 import InputText from "../InputText";
 
-import { useSearchContext } from "../../contexts/SearchContext";
 import useDebounce from "../../hooks/useDebounce";
+import useSearch from "../../hooks/useSearch";
 
 const SearchComponent = (props: SearchProps): JSX.Element => {
   const { categories } = props;
 
-  const { handleChangeSearchCategoryId, handleChangeSearchName } =
-    useSearchContext();
+  const { handleChangeSearchCategoryId, handleChangeSearchName } = useSearch();
 
   const [searchCategoryId, setSearchCategoryId] = useState<string>("all");
   const [searchName, setSearchName] = useState<string>("");

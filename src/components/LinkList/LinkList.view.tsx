@@ -6,7 +6,7 @@ import { LinkListProps } from "./LinkList.props";
 import LinkCard from "../LinkCard";
 import Loader from "../Loader";
 
-import { useSearchContext } from "../../contexts/SearchContext";
+import useSearch from "../../hooks/useSearch";
 import { useGetLinksQuery } from "../../slices/linkApiSlice";
 
 const LinkListComponent = (props: LinkListProps): JSX.Element => {
@@ -14,7 +14,7 @@ const LinkListComponent = (props: LinkListProps): JSX.Element => {
 
   const theme = useTheme();
 
-  const { searchCategoryId, searchName } = useSearchContext();
+  const { searchCategoryId, searchName } = useSearch();
 
   const {
     data: ownLinks = { message: "", data: [] },

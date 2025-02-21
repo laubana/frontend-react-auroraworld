@@ -18,8 +18,9 @@ const AuthComponent = (): JSX.Element => {
   useEffect(() => {
     const main = async () => {
       try {
-        const refreshResponse = await refresh().unwrap();
-        dispatch(setAuth(refreshResponse.data));
+        const response = await refresh().unwrap();
+
+        dispatch(setAuth(response.data));
       } finally {
         setIsRefreshed(true);
       }

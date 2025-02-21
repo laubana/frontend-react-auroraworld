@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import { createContext, FC, ReactNode, useState } from "react";
 
 interface ContextProps {
   searchCategoryId?: string;
@@ -11,7 +11,7 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-const SearchContext = createContext<ContextProps | undefined>(undefined);
+export const SearchContext = createContext<ContextProps | undefined>(undefined);
 
 const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [searchCategoryId, setSearchCategoryId] = useState<string>();
@@ -39,16 +39,6 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
       {children}
     </SearchContext.Provider>
   );
-};
-
-export const useSearchContext = (): ContextProps => {
-  const searchContext = useContext(SearchContext);
-
-  if (!searchContext) {
-    throw new Error("Context must be called in the provider.");
-  }
-
-  return searchContext;
 };
 
 export default SearchContextProvider;

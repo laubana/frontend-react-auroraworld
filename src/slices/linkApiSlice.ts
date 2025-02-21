@@ -56,10 +56,7 @@ export const linkApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { categoryId, name, url },
       }),
-      invalidatesTags: () => [
-        { type: "Link", id: "LIST-OWN" },
-        { type: "Link", id: "LIST-SHARED-WRITABLE" },
-      ],
+      invalidatesTags: () => [{ type: "Link" }],
     }),
   }),
 });
