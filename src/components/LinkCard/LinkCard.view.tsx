@@ -52,7 +52,7 @@ const LinkCardComponent = (
   };
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={2}>
       {own && (
         <Box display="flex" justifyContent="flex-end" alignItems="center">
           <Button variant="contained" onClick={handleDelete}>

@@ -15,7 +15,7 @@ const LinkListComponent = (props: ShareListProps): JSX.Element => {
   });
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={2}>
       {shares.data.map((share) => (
         <ShareItem
           shareId={share.id}
