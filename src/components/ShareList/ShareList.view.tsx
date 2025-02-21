@@ -15,15 +15,19 @@ const LinkListComponent = (props: ShareListProps): JSX.Element => {
   });
 
   return (
-    <Stack spacing={2}>
-      {shares.data.map((share) => (
-        <ShareItem
-          shareId={share.id}
-          email={share.user_email}
-          isWritable={share.is_writable === 1 ? true : false}
-        />
-      ))}
-    </Stack>
+    <>
+      {0 < shares.data.length && (
+        <Stack spacing={2}>
+          {shares.data.map((share) => (
+            <ShareItem
+              shareId={share.id}
+              email={share.user_email}
+              isWritable={share.is_writable === 1 ? true : false}
+            />
+          ))}
+        </Stack>
+      )}
+    </>
   );
 };
 
