@@ -55,14 +55,21 @@ const LayoutComponent = (): JSX.Element => {
       <main>
         <Outlet />
       </main>
-      <footer>
+      <footer
+        style={{
+          backgroundColor: theme.palette.primary.main,
+          marginTop: theme.spacing(4),
+        }}
+      >
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           padding={theme.spacing(8)}
         >
-          <Typography>© 2025, Yuhwan Ban</Typography>
+          <Typography color={theme.palette.primary.contrastText}>
+            Yuhwan Ban
+          </Typography>
         </Box>
       </footer>
     </>

@@ -15,3 +15,5 @@ In the root directory, you can run:
 ### `docker-compose up prod`
 
 The default port is set to 5173, and the default backend endpoint is set to http://localhost:4000.
+
+The resources used are from https://auroragift.com/ and https://www.auroraworld.com/.
